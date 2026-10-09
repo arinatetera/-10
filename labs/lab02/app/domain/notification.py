@@ -12,6 +12,8 @@ class Notification:
         self._recipient = recipient
         self._message = message
 
+
+
     @property
     def recipient(self):
         return self._recipient

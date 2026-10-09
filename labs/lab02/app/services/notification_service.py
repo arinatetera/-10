@@ -9,11 +9,15 @@ class NotificationService:
 
     def send(self, channel: str, notification: Notification) -> DeliveryReceipt:
         if channel == "EMAIL":
-            destination = notification.recipient.email
+            destination_value = notification.recipient.email
         elif channel == "SMS":
-            destination = notification.recipient.phone
+            destination_value = notification.recipient.phone
         else:
             raise DomainError("UNSUPPORTED_CHANNEL")
+        if not destination_value:
+            raise DomainError("MISSING_CONTACT")
+
+        destination = contact(destination_value)
         receipt = DeliveryReceipt(channel, destination, notification.message)
         self._outbox.add(receipt)
         return receipt

@@ -3,19 +3,20 @@ from app.support.errors import DomainError
 from app.support.types import DeliveryReceipt, Outbox, contact
 
 
+CONTACT_GETTERS = {
+    "EMAIL": lambda recipient: recipient.email,
+    "SMS": lambda recipient: recipient.phone,
+}
+
 class NotificationService:
     def __init__(self):
         self._outbox = Outbox()
 
-    def send(self, channel: str, notification: Notification) -> DeliveryReceipt:
-        if channel == "EMAIL":
-            destination_value = notification.recipient.email
-        elif channel == "SMS":
-            destination_value = notification.recipient.phone
-        else:
+    def send(self, channel, notification):
+        getter = CONTACT_GETTERS.get(channel)
+        if getter is None:
             raise DomainError("UNSUPPORTED_CHANNEL")
-        if not destination_value:
-            raise DomainError("MISSING_CONTACT")
+        destination_value = getter(notification.recipient)
 
         destination = contact(destination_value)
         receipt = DeliveryReceipt(channel, destination, notification.message)

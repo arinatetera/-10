@@ -1,18 +1,32 @@
+from abc import ABC, abstractmethod
+
 from app.domain.notification import Notification
-from app.support.types import DeliveryReceipt
+from app.support.errors import DomainError
+from app.support.types import DeliveryReceipt, contact
 
 
-class NotificationSender:
-    # ЛР3: оформить ABC и общий контракт.
+class NotificationSender(ABC):
+    @abstractmethod
     def send(self, notification: Notification) -> DeliveryReceipt:
-        return None
+        pass
 
 
 class EmailSender(NotificationSender):
-    # ЛР3: перенести сюда существующее EMAIL-поведение.
-    pass
+    def __init__(self, prefix: str = ""):
+        self.prefix = prefix
+
+    def send(self, notification: Notification) -> DeliveryReceipt:
+        destination = contact(notification.recipient.email)
+        return DeliveryReceipt(
+            "EMAIL",
+            destination,
+            self.prefix + notification.message,)
 
 
 class SmsSender(NotificationSender):
-    # ЛР3: перенести сюда существующее SMS-поведение.
-    pass
+    def send(self, notification: Notification) -> DeliveryReceipt:
+        destination = contact(notification.recipient.phone)
+        return DeliveryReceipt(
+            "SMS",
+            destination,
+            notification.message,)

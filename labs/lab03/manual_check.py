@@ -28,13 +28,20 @@ third = service.send(
 )
 print("THIRD:", third)
 
+#Проверка тгсендер
+fourth= service.send(
+        "TG",
+        Notification(Recipient(phone="12345"), "ABK"),
+)
+print("FOURTH:", fourth)
+
 # 4. Проверяем журнал
 messages = service.sent()
 print("Outbox:", messages)
 
 assert first.text == "FIRST"
 assert third.text == "THIRD"
-assert len(messages) == 2
+assert len(messages) == 3
 assert messages[0].text == "FIRST"
 assert messages[1].text == "THIRD"
 

@@ -4,26 +4,33 @@ from app.support.errors import DomainError
 from app.support.types import DeliveryReceipt, Outbox, validate_receipt
 
 
-class NotificationService(EmailSender):
-    # ЛР4: сервис не является разновидностью EMAIL-отправителя.
+class NotificationService:
+    #сервис не является разновидностью EMAIL-отправителя.
     def __init__(self):
-        self._sms = SmsSender()
+        self._senders = {
+            "EMAIL": EmailSender(),
+            "SMS": SmsSender()
+        }
         self._outbox = Outbox()
 
     def send(self, channel: str, notification: Notification) -> DeliveryReceipt:
-        if channel == "EMAIL":
-            if not notification.message.strip():
-                raise DomainError("INVALID_MESSAGE")
-            receipt = EmailSender.send(self, notification)
-        elif channel == "SMS":
-            if not notification.message.strip():
-                raise DomainError("INVALID_MESSAGE")
-            receipt = self._sms.send(notification)
-        else:
+        # 1. Проверяем, есть ли такой канал в нашем словаре
+        if channel not in self._senders:
             raise DomainError("UNSUPPORTED_CHANNEL")
+
+        # 2. Получаем нужного отправителя
+        sender = self._senders[channel]
+
+        # 3. Отправляем. Проверки текста тут больше нет (она в Notification).
+        # Проверка контакта произойдет внутри метода send() отправителя.
+        receipt = sender.send(notification)
+
+        # 4. Валидация и запись
         validate_receipt(receipt, channel)
         self._outbox.add(receipt)
-        return receipt
+
+        return receip
+
 
     def sent(self) -> tuple[DeliveryReceipt, ...]:
         return self._outbox.all()

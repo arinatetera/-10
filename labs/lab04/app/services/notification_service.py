@@ -29,7 +29,7 @@ class NotificationService:
         validate_receipt(receipt, channel)
         self._outbox.add(receipt)
 
-        return receip
+        return receipt
 
 
     def sent(self) -> tuple[DeliveryReceipt, ...]:

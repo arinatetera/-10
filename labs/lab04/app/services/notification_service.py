@@ -1,5 +1,5 @@
 from app.domain.notification import Notification
-from app.domain.senders import EmailSender, SmsSender
+from app.domain.senders import EmailSender, SmsSender, TgSender
 from app.support.errors import DomainError
 from app.support.types import DeliveryReceipt, Outbox, validate_receipt
 
@@ -9,7 +9,8 @@ class NotificationService:
     def __init__(self):
         self._senders = {
             "EMAIL": EmailSender(),
-            "SMS": SmsSender()
+            "SMS": SmsSender(),
+            "TG": TgSender()
         }
         self._outbox = Outbox()
 

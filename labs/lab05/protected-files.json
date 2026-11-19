@@ -1,0 +1,12 @@
+{
+  "app/api.py": "0963e0d0e3caf2b1f3942bbc805816ba2501b4f5f3d652aaf596a3724bdc4aa0",
+  "app/support/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "app/support/errors.py": "ce3b7a67a344a59c282e6dce34f178dd047466712697eaa8dbd9cace93fabaf3",
+  "app/support/types.py": "f32267fe07ccf33d49211e04ce3a022f00397eeb30c19a511a7737bd23439718",
+  "bonus_tests/test_bonus.py": "9fcd4d35b8eb5ad6b5e3e9a70664a5632314eeb602c65dbea0ff5ae991041e0c",
+  "conftest.py": "155c516061e0bfbe0f30e4215d6098c203a0fa0f7201afd88fe9de9b1459bddc",
+  "pytest.ini": "0a7768bbb53a890047c800347d2a817bbcc0294dfa4f48b8457954b5d75a6f5a",
+  "tests/test_contract.py": "60104ec620813673259752ed598e9d56fc21e3e3f086667555dc83d5d899468f",
+  "tests/test_progression.py": "84b26e90ff788be9109ba701d8be5f9fe461c81fbcce9829ebc6a23a9382a2ea",
+  "tests/test_review_contract.py": "b62a1489d72f5b61861bd2789a6cd9dc9f002bbb4f6fcfea5ba8f2833f1f3204"
+}

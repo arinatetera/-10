@@ -24,10 +24,14 @@ class NotificationService:
         return self._outbox.all()
 
     def sent_for_channel(self, channel):
-        raise NotImplementedError("ЛР5: реализуйте NotificationService.sent_for_channel по TASK.md")
+        all_receipts = self.sent()
+        return tuple(receipt for receipt in all_receipts if receipt.channel == channel)
 
     def delivery_summary(self):
-        raise NotImplementedError("ЛР5: реализуйте NotificationService.delivery_summary по TASK.md")
+        summary = {}
+        for receipt in self.sent():
+            summary[receipt.channel] = summary.get(receipt.channel, 0) + 1
+        return summary
 
 
 def send_message(service, channel, recipient, message):

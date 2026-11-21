@@ -20,3 +20,8 @@ class SmsSender(NotificationSender):
     def send(self, notification: Notification) -> DeliveryReceipt:
         destination = contact(notification.recipient.phone)
         return DeliveryReceipt("SMS", destination, notification.message)
+
+class TgSender(NotificationSender):
+    def send(self, notification: Notification) -> DeliveryReceipt:
+        destination = contact(notification.recipient.phone)
+        return DeliveryReceipt("TG", destination, notification.message)
